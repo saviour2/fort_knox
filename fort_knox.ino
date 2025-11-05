@@ -119,9 +119,9 @@ void setup() {
 
     Serial.println("🔍 Starting network monitoring...");
     Serial.println("Using hotspot-compatible scanning method");
-    Serial.println("Scans run every 30 seconds\n");
+    Serial.println("Automatic scans DISABLED - scan manually via web button\n");
 
-    // Do initial scan
+    // Do initial scan on startup
     delay(2000);
     scanNetwork();
 
@@ -146,11 +146,11 @@ void loop() {
 
   server.handleClient();
 
-  // Periodic network scan every 30 seconds
-  if (millis() - lastScan > 30000) {
-    scanNetwork();
-    lastScan = millis();
-  }
+  // Automatic scanning disabled - only scan when manually triggered via web button
+  // if (millis() - lastScan > 30000) {
+  //   scanNetwork();
+  //   lastScan = millis();
+  // }
 
   // Print stats every 15 seconds
   static unsigned long lastStats = 0;
@@ -547,7 +547,7 @@ void handleRoot() {
     html += "<div class='info'>🔖 " + devices[i].mac + " &nbsp; • &nbsp; 📱 " + devices[i].deviceType + "</div>";
     html += "<div class='info'>👁️ SEEN " + String(devices[i].pingCount) + " TIMES &nbsp; • &nbsp; 🕐 FIRST SEEN " + formatTime(currentTime - devices[i].firstSeen) + " AGO</div>";
     html += "<div style='margin-top:10px'>";
-    html += "<button class='btn-danger' onclick='fetch(\"/untrust?ip=" + devices[i].ip + "\").then(()=>setTimeout(updateDevices,1000))'>⊗ REMOVE TRUST</button>";
+    html += "<button class='btn-danger' onclick='fetch(\"/untrust?ip=" + devices[i].ip + "\").then(()=>setTimeout(()=>location.reload(),500))'>⊗ REMOVE TRUST</button>";
     html += "<button class='btn-secondary' onclick='rename(\"" + devices[i].ip + "\")'>✏️ RENAME</button>";
     html += "</div>";
     html += "</div>"; // details
@@ -615,8 +615,8 @@ void handleRoot() {
   html += "</div></div>";
 
   html += "<script>";
-  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):',''); if(n!==null){ fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>setTimeout(updateDevices,1000)); }}";
-  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:',''); if(n) fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>setTimeout(updateDevices,1000)); }";
+  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):',''); if(n!==null){ fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>setTimeout(()=>location.reload(),500)); }}";
+  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:',''); if(n) fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>setTimeout(()=>location.reload(),500)); }";
   html += "function scanNow(btn){ btn.textContent='⏳ SCANNING...'; btn.disabled=true; fetch('/scan').then(()=>{ setTimeout(()=>{ btn.textContent='🔍 SCAN NETWORK NOW'; btn.disabled=false; updateDevices(); },10000); }); }";
   html += "function toggleDetails(btn){ var card=btn.closest('.device'); var details=card.querySelector('.details'); if(details.classList.contains('open')){ details.classList.remove('open'); details.style.maxHeight=null; btn.textContent='More info'; } else { details.classList.add('open'); details.style.maxHeight=details.scrollHeight+'px'; btn.textContent='Less info'; } }";
   html += "function updateDevices(){ fetch('/devicelist').then(r=>r.json()).then(data=>{ document.querySelectorAll('.stat-number')[0].textContent=data.stats.total; document.querySelectorAll('.stat-number')[1].textContent=data.stats.active; document.querySelectorAll('.stat-number')[2].textContent=data.stats.trusted; document.querySelectorAll('.stat-number')[3].textContent=data.stats.untrusted; document.querySelectorAll('.success-item')[2].innerHTML='🔍 <strong>'+data.stats.scans+'</strong> SCANS'; document.querySelectorAll('.success-item')[3].innerHTML='⏱️ <strong>'+data.stats.uptime+'</strong> UPTIME'; if((data.stats.untrusted>0||data.stats.alerts>0) && !document.querySelector('.alert')){ location.reload(); } if(!(data.stats.untrusted>0||data.stats.alerts>0) && document.querySelector('.alert')){ location.reload(); } }).catch(()=>{}); }";

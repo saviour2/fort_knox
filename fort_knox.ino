@@ -43,7 +43,7 @@ void setup() {
   delay(2000);
 
   Serial.println("\n\n====================================");
-  Serial.println("  Digital Fort Knox - Phase 2.1");
+  Serial.println("  Digital Fort Knox - Phase 3.1");
   Serial.println("  Hotspot-Compatible Version");
   Serial.println("====================================\n");
 
@@ -93,6 +93,7 @@ void setup() {
     // Web server setup
     server.on("/", handleRoot);
     server.on("/devices", handleDevices);
+    server.on("/devicelist", handleDeviceList);
     server.on("/trust", handleTrust);
     server.on("/untrust", handleUntrust);
     server.on("/rename", handleRename);
@@ -404,7 +405,6 @@ void handleRoot() {
   String html = "<!DOCTYPE html><html><head>";
   html += "<meta charset='UTF-8'>";
   html += "<meta name='viewport' content='width=device-width, initial-scale=1'>";
-  html += "<meta http-equiv='refresh' content='15'>";
   html += "<title>Digital Fort Knox | Network Security Monitor</title>";
   html += "<style>";
   html += "*{margin:0;padding:0;box-sizing:border-box}";
@@ -569,14 +569,25 @@ void handleRoot() {
   html += "</div>";
 
   html += "<div class='footer'>";
-  html += "🔒 <strong>DIGITAL FORT KNOX</strong> v2.1 | HOTSPOT-COMPATIBLE MODE<br>";
-  html += "AUTO-REFRESH EVERY 15 SECONDS | POWERED BY ESP32";
+  html += "🔒 <strong>DIGITAL FORT KNOX</strong> v 3.1 | HOTSPOT-COMPATIBLE MODE<br>";
+  html += "THE SENTINEL | POWERED BY ESP32";
   html += "</div></div>";
 
   html += "<script>";
-  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):','');if(n!==null)fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>location.reload())}";
-  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:','');if(n)fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>location.reload())}";
+  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):','');if(n!==null)fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>setTimeout(updateDevices,1000))}";
+  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:','');if(n)fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>setTimeout(updateDevices,1000))}";
   html += "function scanNow(btn){btn.textContent='⏳ SCANNING...';btn.disabled=true;fetch('/scan').then(()=>setTimeout(()=>location.reload(),10000))}";
+  html += "function updateDevices(){fetch('/devicelist').then(r=>r.json()).then(data=>{";
+  html += "document.querySelectorAll('.stat-number')[0].textContent=data.stats.total;";
+  html += "document.querySelectorAll('.stat-number')[1].textContent=data.stats.active;";
+  html += "document.querySelectorAll('.stat-number')[2].textContent=data.stats.trusted;";
+  html += "document.querySelectorAll('.stat-number')[3].textContent=data.stats.untrusted;";
+  html += "document.querySelectorAll('.success-item')[2].innerHTML='🔍 <strong>'+data.stats.scans+'</strong> SCANS';";
+  html += "document.querySelectorAll('.success-item')[3].innerHTML='⏱️ <strong>'+data.stats.uptime+'</strong> UPTIME';";
+  html += "if(data.stats.untrusted>0||data.stats.alerts>0){if(!document.querySelector('.alert')){location.reload()}}";
+  html += "else{if(document.querySelector('.alert')){location.reload()}}";
+  html += "}).catch(()=>{})}";
+  html += "setInterval(updateDevices,5000);";
   html += "</script>";
   html += "</body></html>";
 
@@ -588,11 +599,48 @@ void handleDevices() {
   server.send(200, "application/json", json);
 }
 
+void handleDeviceList() {
+  String json = "{";
+  json += "\"stats\":{";
+  json += "\"total\":" + String(deviceCount) + ",";
+  json += "\"active\":" + String(countActive()) + ",";
+  json += "\"trusted\":" + String(countTrusted()) + ",";
+  json += "\"untrusted\":" + String(countUntrusted()) + ",";
+  json += "\"alerts\":" + String(newDeviceAlerts) + ",";
+  json += "\"scans\":" + String(totalScans) + ",";
+  json += "\"uptime\":\"" + formatTime(millis() - sessionStart) + "\"";
+  json += "},";
+  json += "\"devices\":[";
+
+  unsigned long currentTime = millis();
+  bool first = true;
+
+  for (int i = 0; i < deviceCount; i++) {
+    if (!first) json += ",";
+    first = false;
+
+    json += "{";
+    json += "\"ip\":\"" + devices[i].ip + "\",";
+    json += "\"mac\":\"" + devices[i].mac + "\",";
+    json += "\"nickname\":\"" + devices[i].nickname + "\",";
+    json += "\"type\":\"" + devices[i].deviceType + "\",";
+    json += "\"trusted\":" + String(devices[i].isTrusted ? "true" : "false") + ",";
+    json += "\"active\":" + String(devices[i].isActive ? "true" : "false") + ",";
+    json += "\"new\":" + String(devices[i].isNew ? "true" : "false") + ",";
+    json += "\"pingCount\":" + String(devices[i].pingCount) + ",";
+    json += "\"timeSince\":\"" + formatTime(currentTime - devices[i].firstSeen) + "\"";
+    json += "}";
+  }
+
+  json += "]}";
+  server.send(200, "application/json", json);
+}
+
 void handleTrust() {
   if (server.hasArg("ip")) {
     String ip = server.arg("ip");
     String name = server.hasArg("name") ? server.arg("name") : "";
-    
+
     Serial.println("📡 Trust request for IP: " + ip + " with name: '" + name + "'");
 
     int index = findDeviceByIP(ip);
@@ -613,7 +661,7 @@ void handleUntrust() {
   if (server.hasArg("ip")) {
     String ip = server.arg("ip");
     Serial.println("📡 Untrust request for IP: " + ip);
-    
+
     int index = findDeviceByIP(ip);
     if (index >= 0) {
       untrustDevice(index);
@@ -659,9 +707,9 @@ void handleClearAlerts() {
 void handleManualScan() {
   Serial.println("📡 Manual scan requested via web interface");
   server.send(200, "text/plain", "Scan initiated");
-  
+
   // Trigger an immediate scan by setting lastScan to force next scan in loop
   lastScan = 0;  // This will cause the next loop iteration to scan immediately
-  
+
   Serial.println("✓ Scan will execute in next loop cycle");
 }

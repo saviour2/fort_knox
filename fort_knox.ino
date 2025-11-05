@@ -408,20 +408,20 @@ void handleRoot() {
   html += "<title>Digital Fort Knox | Network Security Monitor</title>";
   html += "<style>";
   html += "*{margin:0;padding:0;box-sizing:border-box}";
-  html += "body{font-family:'Courier New',Courier,monospace;background:#f5f5f5;color:#2c3e50;padding:0;min-height:100vh}";
+  html += "body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);color:#2c3e50;padding:0;min-height:100vh}";
   html += ".container{max-width:1400px;margin:0 auto;padding:0}";
-  html += "h1{color:#2c3e50;background:#ffa726;padding:20px 30px;margin:0;box-shadow:0 4px 0 #e67e22;position:relative;text-transform:uppercase}";
+  html += "h1{color:#2c3e50;background:rgba(255,167,38,0.95);padding:25px 30px;margin:0;box-shadow:0 4px 20px rgba(0,0,0,0.1);backdrop-filter:blur(10px);position:relative;border-radius:0 0 20px 20px}";
   html += ".header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}";
-  html += ".title-main{font-size:1.8em;font-weight:900;letter-spacing:2px}";
-  html += ".subtitle{color:#34495e;font-size:0.75em;font-weight:700;opacity:0.8;margin-top:5px}";
-  html += ".badge{background:#34495e;color:#ffa726;padding:4px 10px;border-radius:0;font-size:0.65em;margin-left:12px;font-weight:900;border:2px solid #34495e}";
-  html += ".card{background:#fff;padding:25px;margin:0 0 15px 0;border:3px solid #ffa726;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:all 0.2s}";
-  html += ".card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}";
-  html += ".alert{background:#ffebee;border:3px solid #e57373;color:#c62828;padding:25px;margin:0 0 15px 0;box-shadow:0 2px 8px rgba(229,115,115,0.3);animation:pulse 2s ease-in-out infinite}";
-  html += "@keyframes pulse{0%,100%{box-shadow:0 2px 8px rgba(229,115,115,0.3)}50%{box-shadow:0 4px 12px rgba(229,115,115,0.5)}}";
-  html += ".alert h3{margin-bottom:15px;font-size:1.3em;text-transform:uppercase;letter-spacing:2px}";
-  html += ".success{background:#fff;border:3px solid #66bb6a;color:#2e7d32;padding:18px 25px;margin:0 0 15px 0;box-shadow:0 2px 8px rgba(102,187,106,0.2);display:flex;align-items:center;gap:15px;flex-wrap:wrap}";
-  html += ".success-item{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9em}";
+  html += ".title-main{font-size:1.8em;font-weight:700;letter-spacing:1px}";
+  html += ".subtitle{color:#34495e;font-size:0.75em;font-weight:600;opacity:0.9;margin-top:5px}";
+  html += ".badge{background:rgba(52,73,94,0.9);color:#ffa726;padding:5px 12px;border-radius:20px;font-size:0.65em;margin-left:12px;font-weight:700;border:none;backdrop-filter:blur(5px)}";
+  html += ".card{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);padding:25px;margin:15px;border:none;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.08);transition:all 0.3s ease}";
+  html += ".card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.12)}";
+  html += ".alert{background:rgba(255,235,238,0.95);backdrop-filter:blur(10px);border:2px solid rgba(229,115,115,0.5);border-radius:16px;color:#c62828;padding:25px;margin:15px;box-shadow:0 8px 32px rgba(229,115,115,0.2);animation:pulse 2s ease-in-out infinite}";
+  html += "@keyframes pulse{0%,100%{box-shadow:0 8px 32px rgba(229,115,115,0.2)}50%{box-shadow:0 12px 40px rgba(229,115,115,0.3)}}";
+  html += ".alert h3{margin-bottom:15px;font-size:1.2em;font-weight:700;letter-spacing:0.5px}";
+  html += ".success{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);border:2px solid rgba(102,187,106,0.4);border-radius:16px;color:#2e7d32;padding:20px 25px;margin:15px;box-shadow:0 8px 32px rgba(102,187,106,0.15);display:flex;align-items:center;gap:15px;flex-wrap:wrap}";
+  html += ".success-item{display:flex;align-items:center;gap:8px;font-weight:600;font-size:0.9em}";
   html += ".device{margin:15px 0;padding:20px;background:#fff;border:3px solid #ffa726;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:all 0.2s}";
   html += ".device:hover{transform:translateX(5px);box-shadow:0 4px 12px rgba(255,167,38,0.3)}";
   html += ".device-trusted{border-color:#66bb6a;background:#f1f8f4}";
@@ -454,6 +454,18 @@ void handleRoot() {
   html += ".footer{text-align:center;margin:0;padding:30px;background:#34495e;color:#ffa726;font-size:0.85em;border-top:3px solid #ffa726;font-weight:700}";
   html += ".empty-state{text-align:center;padding:40px 20px;color:#95a5a6;font-size:1.05em;font-weight:700;text-transform:uppercase}";
   html += ".icon{display:inline-block;margin-right:5px}";
+  html += ".icon{display:inline-block;margin-right:5px}";
+  html += ".device{margin:12px 0;padding:18px;background:rgba(255,255,255,0.85);border-radius:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 6px 20px rgba(0,0,0,0.06);transition:all 0.25s ease}";
+  html += ".device:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,0.08)}";
+  html += ".device-trusted{border-color:rgba(102,187,106,0.25);background:rgba(241,248,244,0.9)}";
+  html += ".device-untrusted{border-color:rgba(229,115,115,0.18);background:rgba(255,245,245,0.9)}";
+  html += ".ip{font-size:1.05em;font-weight:800;color:#e67e22;margin-bottom:6px;font-family:'Courier New',monospace;letter-spacing:0.5px;text-transform:none}";
+  html += ".nickname{color:#2e7d32;font-size:1.1em;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;text-transform:none}";
+  html += ".toggle-btn{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:6px 10px;border-radius:10px;color:#34495e;cursor:pointer;font-weight:700;margin-left:8px;box-shadow:none}";
+  html += ".toggle-btn:hover{background:rgba(0,0,0,0.03)}";
+  html += ".details{max-height:0;overflow:hidden;transition:max-height 0.35s ease,opacity 0.35s ease;opacity:0;padding-top:0;margin-top:0}";
+  html += ".details.open{opacity:1;padding-top:12px;margin-top:12px}";
+  html += "button, .btn-secondary, .btn-danger{border-radius:10px}";
   html += "</style></head><body><div class='container'>";
 
   html += "<h1><div class='header-content'><div><div class='title-main'>🛡️ DIGITAL FORT KNOX</div>";
@@ -508,24 +520,39 @@ void handleRoot() {
     hasTrusted = true;
 
     html += "<div class='device device-trusted'>";
+    html += "<div style='display:flex;justify-content:space-between;align-items:center'>";
+    html += "<div>";
     if (devices[i].nickname.length() > 0) {
       html += "<div class='nickname'><span class='icon'>✓</span>" + devices[i].nickname + "</div>";
+      html += "<div class='ip'>📍 " + devices[i].ip + "</div>";
+    } else {
+      html += "<div class='ip'>� " + devices[i].ip + "</div>";
     }
-    html += "<div class='ip'>📍 " + devices[i].ip + "</div>";
-    html += "<div class='info'>";
-    html += "<span>🔖 " + devices[i].mac + "</span>";
-    html += "<span>📱 " + devices[i].deviceType + "</span>";
-    html += "<span>👁️ SEEN " + String(devices[i].pingCount) + " TIMES</span>";
-    html += "</div>";
+    html += "</div>"; // left
+
+    // right: badges + toggle
+    html += "<div style='display:flex;align-items:center'>";
     html += "<span class='status status-trusted'>✓ TRUSTED</span>";
     if (devices[i].isActive) {
-      html += "<span class='status' style='background:#66bb6a;color:#fff;border-color:#4caf50'>● ONLINE</span>";
+      html += "<span class='status' style='background:#66bb6a;color:#fff;border-color:#4caf50;margin-left:8px'>● ONLINE</span>";
     } else {
-      html += "<span class='status' style='background:#bdbdbd;color:#fff;border-color:#9e9e9e'>○ OFFLINE</span>";
+      html += "<span class='status' style='background:#bdbdbd;color:#fff;border-color:#9e9e9e;margin-left:8px'>○ OFFLINE</span>";
     }
-    html += "<button class='btn-danger' onclick='fetch(\"/untrust?ip=" + devices[i].ip + "\").then(()=>location.reload())'>⊗ REMOVE TRUST</button>";
+    html += "<button class='toggle-btn' onclick='toggleDetails(this)'>More info</button>";
+    html += "</div>"; // right
+    html += "</div>"; // header
+
+    // Collapsible details
+    html += "<div class='details'>";
+    html += "<div class='info'>🔖 " + devices[i].mac + " &nbsp; • &nbsp; 📱 " + devices[i].deviceType + "</div>";
+    html += "<div class='info'>👁️ SEEN " + String(devices[i].pingCount) + " TIMES &nbsp; • &nbsp; 🕐 FIRST SEEN " + formatTime(currentTime - devices[i].firstSeen) + " AGO</div>";
+    html += "<div style='margin-top:10px'>";
+    html += "<button class='btn-danger' onclick='fetch(\"/untrust?ip=" + devices[i].ip + "\").then(()=>setTimeout(updateDevices,1000))'>⊗ REMOVE TRUST</button>";
     html += "<button class='btn-secondary' onclick='rename(\"" + devices[i].ip + "\")'>✏️ RENAME</button>";
     html += "</div>";
+    html += "</div>"; // details
+
+    html += "</div>"; // device
   }
   if (!hasTrusted) {
     html += "<div class='empty-state'>NO TRUSTED DEVICES YET. TRUST DEVICES BELOW TO STOP RECEIVING ALERTS.</div>";
@@ -542,25 +569,39 @@ void handleRoot() {
     if (devices[i].isNew) devClass += " device-new";
 
     html += "<div class='" + devClass + "'>";
-    html += "<div class='ip'>📍 " + devices[i].ip + "</div>";
-    html += "<div class='info'>";
-    html += "<span>🔖 " + devices[i].mac + "</span>";
-    html += "<span>📱 " + devices[i].deviceType + "</span>";
-    html += "</div>";
-    html += "<div class='info'>";
-    html += "<span>🕐 FIRST SEEN " + formatTime(currentTime - devices[i].firstSeen) + " AGO</span>";
-    html += "<span>👁️ " + String(devices[i].pingCount) + " DETECTIONS</span>";
-    html += "</div>";
-    html += "<span class='status status-untrusted'>⚠ UNTRUSTED</span>";
-    if (devices[i].isNew) html += "<span class='status status-new'>🆕 NEW</span>";
-    if (devices[i].isActive) {
-      html += "<span class='status' style='background:#66bb6a;color:#fff;border-color:#4caf50'>● ONLINE</span>";
+    html += "<div style='display:flex;justify-content:space-between;align-items:center'>";
+    html += "<div>";
+    if (devices[i].nickname.length() > 0) {
+      html += "<div class='nickname'>" + devices[i].nickname + "</div>";
+      html += "<div class='ip'>� " + devices[i].ip + "</div>";
     } else {
-      html += "<span class='status' style='background:#bdbdbd;color:#fff;border-color:#9e9e9e'>○ OFFLINE</span>";
+      html += "<div class='ip'>� " + devices[i].ip + "</div>";
     }
-    html += "<button onclick='trust(\"" + devices[i].ip + "\")'>✓ TRUST DEVICE</button>";
+    html += "</div>";
+
+    html += "<div style='display:flex;align-items:center'>";
+    html += "<span class='status status-untrusted'>⚠ UNTRUSTED</span>";
+    if (devices[i].isNew) html += "<span class='status status-new' style='margin-left:8px'>🆕 NEW</span>";
+    if (devices[i].isActive) {
+      html += "<span class='status' style='background:#66bb6a;color:#fff;border-color:#4caf50;margin-left:8px'>● ONLINE</span>";
+    } else {
+      html += "<span class='status' style='background:#bdbdbd;color:#fff;border-color:#9e9e9e;margin-left:8px'>○ OFFLINE</span>";
+    }
+    html += "<button class='toggle-btn' onclick='toggleDetails(this)'>More info</button>";
+    html += "<button style='margin-left:10px' onclick='trust(\"" + devices[i].ip + "\")'>✓ TRUST</button>";
+    html += "</div>"; // right
+    html += "</div>"; // header
+
+    // details
+    html += "<div class='details'>";
+    html += "<div class='info'>🔖 " + devices[i].mac + " &nbsp; • &nbsp; 📱 " + devices[i].deviceType + "</div>";
+    html += "<div class='info'>👁️ " + String(devices[i].pingCount) + " DETECTIONS &nbsp; • &nbsp; 🕐 FIRST SEEN " + formatTime(currentTime - devices[i].firstSeen) + " AGO</div>";
+    html += "<div style='margin-top:10px'>";
     html += "<button class='btn-secondary' onclick='rename(\"" + devices[i].ip + "\")'>✏️ SET NAME</button>";
     html += "</div>";
+    html += "</div>"; // details
+
+    html += "</div>"; // device
   }
   if (!hasUntrusted) {
     html += "<div class='empty-state'>✓ ALL DEVICES ARE TRUSTED! YOUR NETWORK IS SECURE.</div>";
@@ -574,19 +615,11 @@ void handleRoot() {
   html += "</div></div>";
 
   html += "<script>";
-  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):','');if(n!==null)fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>setTimeout(updateDevices,1000))}";
-  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:','');if(n)fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>setTimeout(updateDevices,1000))}";
-  html += "function scanNow(btn){btn.textContent='⏳ SCANNING...';btn.disabled=true;fetch('/scan').then(()=>setTimeout(()=>location.reload(),10000))}";
-  html += "function updateDevices(){fetch('/devicelist').then(r=>r.json()).then(data=>{";
-  html += "document.querySelectorAll('.stat-number')[0].textContent=data.stats.total;";
-  html += "document.querySelectorAll('.stat-number')[1].textContent=data.stats.active;";
-  html += "document.querySelectorAll('.stat-number')[2].textContent=data.stats.trusted;";
-  html += "document.querySelectorAll('.stat-number')[3].textContent=data.stats.untrusted;";
-  html += "document.querySelectorAll('.success-item')[2].innerHTML='🔍 <strong>'+data.stats.scans+'</strong> SCANS';";
-  html += "document.querySelectorAll('.success-item')[3].innerHTML='⏱️ <strong>'+data.stats.uptime+'</strong> UPTIME';";
-  html += "if(data.stats.untrusted>0||data.stats.alerts>0){if(!document.querySelector('.alert')){location.reload()}}";
-  html += "else{if(document.querySelector('.alert')){location.reload()}}";
-  html += "}).catch(()=>{})}";
+  html += "function trust(ip){var n=prompt('ENTER A NICKNAME FOR THIS DEVICE (OPTIONAL):',''); if(n!==null){ fetch('/trust?ip='+ip+'&name='+encodeURIComponent(n||'')).then(()=>setTimeout(updateDevices,1000)); }}";
+  html += "function rename(ip){var n=prompt('ENTER NEW NICKNAME FOR THIS DEVICE:',''); if(n) fetch('/rename?ip='+ip+'&name='+encodeURIComponent(n)).then(()=>setTimeout(updateDevices,1000)); }";
+  html += "function scanNow(btn){ btn.textContent='⏳ SCANNING...'; btn.disabled=true; fetch('/scan').then(()=>{ setTimeout(()=>{ btn.textContent='🔍 SCAN NETWORK NOW'; btn.disabled=false; updateDevices(); },10000); }); }";
+  html += "function toggleDetails(btn){ var card=btn.closest('.device'); var details=card.querySelector('.details'); if(details.classList.contains('open')){ details.classList.remove('open'); details.style.maxHeight=null; btn.textContent='More info'; } else { details.classList.add('open'); details.style.maxHeight=details.scrollHeight+'px'; btn.textContent='Less info'; } }";
+  html += "function updateDevices(){ fetch('/devicelist').then(r=>r.json()).then(data=>{ document.querySelectorAll('.stat-number')[0].textContent=data.stats.total; document.querySelectorAll('.stat-number')[1].textContent=data.stats.active; document.querySelectorAll('.stat-number')[2].textContent=data.stats.trusted; document.querySelectorAll('.stat-number')[3].textContent=data.stats.untrusted; document.querySelectorAll('.success-item')[2].innerHTML='🔍 <strong>'+data.stats.scans+'</strong> SCANS'; document.querySelectorAll('.success-item')[3].innerHTML='⏱️ <strong>'+data.stats.uptime+'</strong> UPTIME'; if((data.stats.untrusted>0||data.stats.alerts>0) && !document.querySelector('.alert')){ location.reload(); } if(!(data.stats.untrusted>0||data.stats.alerts>0) && document.querySelector('.alert')){ location.reload(); } }).catch(()=>{}); }";
   html += "setInterval(updateDevices,5000);";
   html += "</script>";
   html += "</body></html>";
